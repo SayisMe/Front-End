@@ -1,0 +1,1 @@
+{"version":3,"file":"style.css","mappings":"AAAA,EAEI,SAGJ,CAGA,IACI,WACJ","sources":["webpack://front-end/./src/css/style.css"],"sourcesContent":["p{\n\n    color: red\n\n\n}\n\n\ndiv{\n    width: 100px;\n}"],"names":[],"sourceRoot":""}
