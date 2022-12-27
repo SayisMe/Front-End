@@ -17,14 +17,15 @@ export class Keyboard {
     this.#fontSelectEl = this.#containerEl.querySelector("#font");
     this.#keyboardEl = this.#containerEl.querySelector("#keyboard");
     this.#inputGrouptEl = this.#containerEl.querySelector("#input-group");
+    this.#inputEl = this.#inputGrouptEl.querySelector("#input");
     // document.getElemntById("switch") 로 탐색할 수 있지만, 그보다 하위인 container 부터 탐색하도록 해서 비용을 절감할 수 있게 되었다.
   }
 
   #addEvent() {
     this.#switchEl.addEventListener("change", this.#onChangeTheme);
     this.#fontSelectEl.addEventListener("change", this.#onChangeFont);
-    document.addEventListener("keydown", this.#onKeyDown);
-    document.addEventListener("keyup", this.#onKeyUp);
+    document.addEventListener("keydown", this.#onKeyDown.bind(this));  // 1) 여기서 this는 윈도우를 가리키고 있기 때문에,
+    document.addEventListener("keyup", this.#onKeyUp.bind(this));      // 3) 따라서 .bind(this) 를 해서 this가 윈도우가 아닌 클래스의 this를 가리키도록 해준다.
     this.#inputEl.addEventListener("input", this.#onInput);
   }
 
@@ -35,6 +36,8 @@ export class Keyboard {
     );
   }
 
+  // 2) window로 가리켜서 행해진 함수 onKeyDown에서 this.#inputGroupEl 은 keyboard class 안의 변수이므로
+  // (즉, 전역 객체의 변수가 아니므로) 에러가 난다.
   #onKeyDown(event) {
     this.#inputGrouptEl.classList.toggle(
       "error",
