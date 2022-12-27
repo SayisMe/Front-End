@@ -27,6 +27,30 @@ export class Keyboard {
     document.addEventListener("keydown", this.#onKeyDown.bind(this));  // 1) 여기서 this는 윈도우를 가리키고 있기 때문에,
     document.addEventListener("keyup", this.#onKeyUp.bind(this));      // 3) 따라서 .bind(this) 를 해서 this가 윈도우가 아닌 클래스의 this를 가리키도록 해준다.
     this.#inputEl.addEventListener("input", this.#onInput);
+    this.#keyboardEl.addEventListener("mousedown", this.#onMouseDown);
+    document.addEventListener("mouseup", this.#onMouseUp.bind(this));
+  }
+
+  // 키보드를 누르고, 뗄 때는 누른 위치가 아닌 곳에서 뗄 수도 있기 때문에 document로 addEvent를 하고,
+  // this.#keyboardEl 을 통해서 제거를 해준다.
+  #onMouseUp(event) {
+    const keyEl = event.target.closest("div.key");
+    const isActive = !!keyEl?.classList.contains("active"); // 느낌표를 두 개 함으로써 boolean으로 type casting
+    const val = keyEl?.dataset.val; // data-val = "1" 인 것을 값을 불러올때 이렇게 표현
+    if (isActive && !!val && val !== "Space" && val !== "Backspace") {
+      this.#inputEl.value += val;
+    }
+    if (isActive && val === "Space") {
+      this.#inputEl.value += " ";
+    }
+    if (isActive && val === "Backspace") {
+      this.#inputEl.value = this.#inputEl.value.slice(0, -1);
+    }
+    this.#keyboardEl.querySelector(".active")?.classList.remove("active");
+  }
+
+  #onMouseDown(event) {
+    event.target.closest("div.key")?.classList.add("active");
   }
 
   #onInput(event) {
