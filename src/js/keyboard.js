@@ -6,6 +6,8 @@ export class Keyboard {
   #keyboardEl;
   #inputGrouptEl;
   #inputEl;
+  #keyPress = false;
+  #mouseDown = false;
   constructor() {
     this.#asssignElement();
     this.#addEvent();
@@ -27,13 +29,15 @@ export class Keyboard {
     document.addEventListener("keydown", this.#onKeyDown.bind(this));  // 1) 여기서 this는 윈도우를 가리키고 있기 때문에,
     document.addEventListener("keyup", this.#onKeyUp.bind(this));      // 3) 따라서 .bind(this) 를 해서 this가 윈도우가 아닌 클래스의 this를 가리키도록 해준다.
     this.#inputEl.addEventListener("input", this.#onInput);
-    this.#keyboardEl.addEventListener("mousedown", this.#onMouseDown);
+    this.#keyboardEl.addEventListener("mousedown", this.#onMouseDown.bind(this));
     document.addEventListener("mouseup", this.#onMouseUp.bind(this));
   }
 
   // 키보드를 누르고, 뗄 때는 누른 위치가 아닌 곳에서 뗄 수도 있기 때문에 document로 addEvent를 하고,
   // this.#keyboardEl 을 통해서 제거를 해준다.
   #onMouseUp(event) {
+    if(this.#keyPress) return;
+    this.#mouseDown = false;
     const keyEl = event.target.closest("div.key");
     const isActive = !!keyEl?.classList.contains("active"); // 느낌표를 두 개 함으로써 boolean으로 type casting
     const val = keyEl?.dataset.val; // data-val = "1" 인 것을 값을 불러올때 이렇게 표현
@@ -50,6 +54,8 @@ export class Keyboard {
   }
 
   #onMouseDown(event) {
+    if(this.#keyPress) return;
+    this.#mouseDown = true;
     event.target.closest("div.key")?.classList.add("active");
   }
 
@@ -63,6 +69,8 @@ export class Keyboard {
   // 2) window로 가리켜서 행해진 함수 onKeyDown에서 this.#inputGroupEl 은 keyboard class 안의 변수이므로
   // (즉, 전역 객체의 변수가 아니므로) 에러가 난다.
   #onKeyDown(event) {
+    if(this.#mouseDown) return;
+    this.#keyPress = true;
     this.#inputGrouptEl.classList.toggle(
       "error",
       /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(event.key)
@@ -74,6 +82,8 @@ export class Keyboard {
   }
   
   #onKeyUp(event) {
+    if(this.#mouseDown) return;
+    this.#keyPress = false;
     this.#keyboardEl
       .querySelector(`[data-code=${event.code}]`)
       ?.classList.remove("active");
