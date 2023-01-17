@@ -6,33 +6,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Page Title</title>
   <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+  <script src="main.js"></script>
 </head>
 <body>
   <div class="row">
-    <input class="inp" disabled value="123 + 80 = 203">
+    <input class="inp" disabled id="top-inp">
   </div>
   <div class="row">
-    <div class="btn">7</div>
-    <div class="btn">8</div>
-    <div class="btn">9</div>
-    <div class="btn">=</div>
+    <div class="btn" onclick="inputNum(7)">7</div>
+    <div class="btn" onclick="inputNum(8)">8</div>
+    <div class="btn" onclick="inputNum(9)">9</div>
+    <div class="btn" onclick="inputEqu()">=</div>
   </div>
   <div class="row">
-    <div class="btn">4</div>
-    <div class="btn">5</div>
-    <div class="btn">6</div>
-    <div class="btn">+</div>
+    <div class="btn" onclick="inputNum(4)">4</div>
+    <div class="btn" onclick="inputNum(5)">5</div>
+    <div class="btn" onclick="inputNum(6)">6</div>
+    <div class="btn" onclick="inputOper('+')">+</div>
   </div>
   <div class="row">
-    <div class="btn">1</div>
-    <div class="btn">2</div>
-    <div class="btn">3</div>
-    <div class="btn">-</div>
+    <div class="btn" onclick="inputNum(1)">1</div>
+    <div class="btn" onclick="inputNum(2)">2</div>
+    <div class="btn" onclick="inputNum(3)">3</div>
+    <div class="btn" onclick="inputOper('-')">-</div>
   </div>
   <div class="row">
-    <div class="btn btn-lg">0</div>
-    <div class="btn">/</div>
-    <div class="btn">*</div>
+    <div class="btn btn-lg" onclick="inputNum(0)">0</div>
+    <div class="btn" onclick="inputOper('/')">/</div>
+    <div class="btn" onclick="inputOper('*')">*</div>
   </div>
 </body>
 </html>
