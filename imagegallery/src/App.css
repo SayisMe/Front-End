@@ -1,0 +1,32 @@
+.text-center {
+text-align: center;
+}
+.plus-box {
+  width: 100px;
+  height: 100px;
+  border: solid 1px #707070;
+  font-size: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 24px;
+}
+.initial-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 80px;
+}
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media screen and (max-width: 500px){
+  .initial-box {
+    gap: 40px;
+  }
+}
